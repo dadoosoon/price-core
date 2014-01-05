@@ -39,4 +39,12 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand> {
     criteria.add(Restrictions.eq("brand", brand));
     return (List<CategoryBrand>)criteria.list();
   }
+  
+  public CategoryBrand findByCategoryAndBrand(Category category, Brand brand) {
+    Session session = this.sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(this.c);
+    criteria.add(Restrictions.eq("category", category));
+    criteria.add(Restrictions.eq("brand", brand));
+    return (CategoryBrand)criteria.uniqueResult();
+  }
 }

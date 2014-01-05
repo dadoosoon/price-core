@@ -11,12 +11,15 @@ import im.dadoo.price.core.domain.Brand;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author zyq
  */
 @Service
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class BrandService {
   
   @Autowired
