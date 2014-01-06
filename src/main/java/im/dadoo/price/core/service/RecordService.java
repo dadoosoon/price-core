@@ -34,18 +34,19 @@ public class RecordService {
   @Autowired
   private LinkDao linkDao;
   
-  
   public Record save(Link link, Double price, Integer stock) {
     Record record = null;
-    Record prev = this.recordDao.findLatestByLink(link);
-    if (prev != null && ObjectUtils.equals(prev.getPrice(), price) 
-            && ObjectUtils.equals(prev.getStock(), stock)) {
-      record = prev;
-      record.setDatetime(System.currentTimeMillis());
-      this.recordDao.update(record);
-    } else {
-      record = Record.create(price, stock, link, System.currentTimeMillis());
-      this.recordDao.save(record);
+    if (link != null) {
+      Record prev = this.recordDao.findLatestByLink(link);
+      if (prev != null && ObjectUtils.equals(prev.getPrice(), price) 
+              && ObjectUtils.equals(prev.getStock(), stock)) {
+        record = prev;
+        record.setDatetime(System.currentTimeMillis());
+        this.recordDao.update(record);
+      } else {
+        record = Record.create(price, stock, link, System.currentTimeMillis());
+        this.recordDao.save(record);
+      }
     }
     return record;
   }
@@ -86,7 +87,7 @@ public class RecordService {
     if (product != null) {
       List<Link> links = this.linkDao.listByProduct(product);
       if (links != null && !links.isEmpty()) {
-        map = new HashMap<Link, Record>();
+        map = new HashMap<>();
         for (Link link : links) {
           Record record = this.recordDao.findLatestByLink(link);
           map.put(link, record);

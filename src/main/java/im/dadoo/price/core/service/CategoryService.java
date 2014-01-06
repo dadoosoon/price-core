@@ -63,16 +63,23 @@ public class CategoryService {
     return this.categoryDao.findByName(name);
   }
   
-  public List<Category> listByBrand(Integer brandId) { 
-    Brand brand = this.brandDao.findById(brandId);
+  public List<Category> list() {
+    return this.categoryDao.list();
+  }
+  
+  public List<Category> listByBrand(Brand brand) { 
     List<CategoryBrand> cbs = this.cbDao.listByBrand(brand);
     List<Category> categories = null;
     if (cbs != null) {
-      categories = new ArrayList<Category>(cbs.size());
+      categories = new ArrayList<>(cbs.size());
       for (CategoryBrand cb : cbs) {
         categories.add(cb.getCategory());
       }
     }
     return categories;
+  }
+  
+  public List<Category> listBySup(Category sup) {
+    return this.categoryDao.listBySup(sup);
   }
 }

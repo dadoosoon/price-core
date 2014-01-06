@@ -76,9 +76,7 @@ public class ProductService {
     return this.productDao.list();
   }
   
-  public List<Product> listByCategoryAndBrand(Integer categoryId, Integer brandId) {
-    Category category = this.categoryDao.findById(categoryId);
-    Brand brand = this.brandDao.findById(brandId);
+  public List<Product> listByCategoryAndBrand(Category category, Brand brand) {
     CategoryBrand cb = this.cbDao.findByCategoryAndBrand(category, brand);
     return this.productDao.listByCategoryBrand(cb);
   }

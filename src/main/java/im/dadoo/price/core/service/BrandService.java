@@ -7,7 +7,11 @@
 package im.dadoo.price.core.service;
 
 import im.dadoo.price.core.dao.BrandDao;
+import im.dadoo.price.core.dao.CategoryBrandDao;
 import im.dadoo.price.core.domain.Brand;
+import im.dadoo.price.core.domain.Category;
+import im.dadoo.price.core.domain.CategoryBrand;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,9 @@ public class BrandService {
   
   @Autowired
   private BrandDao brandDao;
+  
+  @Autowired
+  private CategoryBrandDao cbDao;
   
   public Brand save(String name, String info) {
     Brand brand = Brand.create(name, info);
@@ -55,4 +62,15 @@ public class BrandService {
     return this.brandDao.list();
   }
   
+  public List<Brand> listByCategory(Category category) {
+    List<Brand> brands = null;
+    List<CategoryBrand> cbs = this.cbDao.listByCategory(category);
+    if (cbs != null && !cbs.isEmpty()) {
+      brands = new ArrayList<>(cbs.size());
+      for (CategoryBrand cb : cbs) {
+        brands.add(cb.getBrand());
+      }
+    }
+    return brands;
+  }
 }

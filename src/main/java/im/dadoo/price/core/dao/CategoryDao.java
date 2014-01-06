@@ -34,7 +34,11 @@ public class CategoryDao extends BaseDao<Category> {
   public List<Category> listBySup(Category sup) {
     Session session = this.sessionFactory.getCurrentSession();
     Criteria criteria = session.createCriteria(this.c);
-    criteria.add(Restrictions.eq("sup", sup));
+    if (sup == null) {
+      criteria.add(Restrictions.isNull("sup"));
+    } else {
+      criteria.add(Restrictions.eq("sup", sup));
+    }
     return (List<Category>)criteria.list();
   }
 }
