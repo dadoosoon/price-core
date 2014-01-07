@@ -11,6 +11,7 @@ import im.dadoo.price.core.dao.RecordDao;
 import im.dadoo.price.core.domain.Link;
 import im.dadoo.price.core.domain.Product;
 import im.dadoo.price.core.domain.Record;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,18 +83,18 @@ public class RecordService {
     return this.recordDao.findLatestByLink(link);
   }
   
-  public Map<Link, Record> mapLatestByProduct(Product product) {
-    Map<Link, Record> map = null;
+  public List<Record> mapLatestByProductPerLink(Product product) {
+    List<Record> records = null;
     if (product != null) {
       List<Link> links = this.linkDao.listByProduct(product);
       if (links != null && !links.isEmpty()) {
-        map = new HashMap<>();
+        records = new ArrayList<>(links.size());
         for (Link link : links) {
           Record record = this.recordDao.findLatestByLink(link);
-          map.put(link, record);
+          records.add(record);
         }
       }
     }
-    return map;
+    return records;
   }
 }
