@@ -83,7 +83,7 @@ public class RecordService {
     return this.recordDao.findLatestByLink(link);
   }
   
-  public List<Record> mapLatestByProductPerLink(Product product) {
+  public List<Record> listLatestByProductPerLink(Product product) {
     List<Record> records = null;
     if (product != null) {
       List<Link> links = this.linkDao.listByProduct(product);
