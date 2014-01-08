@@ -11,10 +11,14 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 ">
   
-  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-    <property name="url" value="jdbc:mysql://db.dadoo.im:33066/dadooprice?characterEncoding=utf8" />
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" 
+        init-method="init" destroy-method="close">
+    <property name="url" 
+              value="jdbc:mysql://db.dadoo.im:33066/dadooprice?characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;socketTimeout=5000" />
     <property name="username" value="root" />
     <property name="password" value="dadoo2012dadoo" />
+    <!-- 配置获取连接等待超时的时间 -->
+    <property name="maxWait" value="60000" />
   </bean>
   
   <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
