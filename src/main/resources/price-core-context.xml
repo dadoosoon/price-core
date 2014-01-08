@@ -18,7 +18,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="username" value="root" />
     <property name="password" value="dadoo2012dadoo" />
     <!-- 配置获取连接等待超时的时间 -->
-    <property name="maxWait" value="60000" />
+    <property name="maxWait" value="360000" />
   </bean>
   
   <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
