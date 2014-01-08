@@ -14,7 +14,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" 
         init-method="init" destroy-method="close">
     <property name="url" 
-              value="jdbc:mysql://db.dadoo.im:33066/dadooprice?characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;socketTimeout=5000" />
+              value="jdbc:mysql://db.dadoo.im:33066/dadooprice?characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;socketTimeout=60000" />
     <property name="username" value="root" />
     <property name="password" value="dadoo2012dadoo" />
     <!-- 配置获取连接等待超时的时间 -->
