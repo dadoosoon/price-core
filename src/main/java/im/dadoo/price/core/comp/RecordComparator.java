@@ -18,7 +18,20 @@ public class RecordComparator implements Comparator<Record> {
 
   @Override
   public int compare(Record o1, Record o2) {
-    return ObjectUtils.compare(o1.getPrice(), o2.getPrice(), true);
+    if (o1 != null) {
+      if (o2 != null) {
+        return ObjectUtils.compare(o1.getPrice(), o2.getPrice(), true);
+      } else {
+        return 1;
+      }
+    } else {
+      if (o2 != null) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+    
   }
 
 }
