@@ -38,10 +38,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
     
     <property name="packagesToScan">
-      <list><value>im.dadoo</value></list> 
+      <list><value>im.dadoo.price.core</value></list> 
     </property>
   </bean>
   
+  <bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">     
+     <property name="sessionFactory">     
+       <ref bean="sessionFactory"/>     
+     </property>   
+  </bean>
   
   <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
     <property name="sessionFactory">
@@ -49,12 +54,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>  
   </bean>
   <tx:annotation-driven transaction-manager="transactionManager" />
-
   
   <!-- Scans within the base package of the application for @Components to 
     configure as beans -->
   <!-- @Controller, @Service, @Configuration, etc. -->
   <context:annotation-config />
-  <context:component-scan base-package="im.dadoo" />
+  <context:component-scan base-package="im.dadoo.price.core" />
 
 </beans>
