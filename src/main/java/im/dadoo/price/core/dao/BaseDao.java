@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
  * @author zyq
+ * @param <T>
  */
 public class BaseDao<T> {
   
