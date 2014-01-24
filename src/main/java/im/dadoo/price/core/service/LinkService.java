@@ -63,7 +63,7 @@ public class LinkService {
   }
   
   public Link findById(Integer id) {
-    return this.findById(id);
+    return this.linkDao.findById(id);
   }
   
   public List<Link> list() {
