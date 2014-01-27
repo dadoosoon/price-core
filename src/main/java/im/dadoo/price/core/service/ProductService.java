@@ -80,4 +80,8 @@ public class ProductService {
     CategoryBrand cb = this.cbDao.findByCategoryAndBrand(category, brand);
     return this.productDao.listByCategoryBrand(cb);
   }
+  
+  public Long size() {
+    return (Long)this.productDao.size();
+  }
 }

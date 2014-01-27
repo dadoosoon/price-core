@@ -70,12 +70,12 @@ public class LinkService {
     return this.linkDao.list();
   }
   
-  public List<Link> listBySeller(Integer sellerId) {
+  public List<Link> listBySellerId(Integer sellerId) {
     Seller seller = this.sellerDao.findById(sellerId);
     return this.linkDao.listBySeller(seller);
   }
   
-  public List<Link> listByProduct(Integer productId) {
+  public List<Link> listByProductId(Integer productId) {
     Product product = this.productDao.findById(productId);
     return this.linkDao.listByProduct(product);
   }
@@ -84,4 +84,7 @@ public class LinkService {
     return this.linkDao.findByUrl(url);
   }
   
+  public Long size() {
+    return (Long)this.linkDao.size();
+  }
 }

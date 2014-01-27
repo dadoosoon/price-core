@@ -11,6 +11,7 @@ import im.dadoo.price.core.domain.Product;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +36,8 @@ public class ProductDao extends BaseDao<Product> {
   public List<Product> listByCategoryBrand(CategoryBrand categoryBrand) {
     Session session = this.sessionFactory.getCurrentSession();
     Criteria criteria = session.createCriteria(this.c);
-    criteria.add(Restrictions.eq("categoryBrand", categoryBrand));
+    criteria.add(Restrictions.eq("categoryBrand", categoryBrand))
+            .addOrder(Order.asc("name"));
     return (List<Product>)criteria.list();
   }
 }

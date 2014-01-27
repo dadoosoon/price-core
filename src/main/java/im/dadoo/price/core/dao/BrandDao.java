@@ -7,8 +7,10 @@
 package im.dadoo.price.core.dao;
 
 import im.dadoo.price.core.domain.Brand;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +32,11 @@ public class BrandDao extends BaseDao<Brand> {
     return (Brand)criteria.uniqueResult();
   }
   
-  
+  @Override
+  public List<Brand> list() {
+    Session session = this.sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(this.c);
+    criteria.addOrder(Order.asc("name"));
+    return (List<Brand>)criteria.list();
+  }
 }

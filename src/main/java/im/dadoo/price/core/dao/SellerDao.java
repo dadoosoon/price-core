@@ -6,7 +6,6 @@
 
 package im.dadoo.price.core.dao;
 
-import im.dadoo.price.core.domain.Category;
 import im.dadoo.price.core.domain.Seller;
 import org.hibernate.Criteria;
 import org.hibernate.Session;

@@ -67,6 +67,10 @@ public class CategoryService {
     return this.categoryDao.list();
   }
   
+  public Long size() {
+    return (Long)this.categoryDao.size();
+  }
+  
   public List<Category> listByBrand(Brand brand) { 
     List<CategoryBrand> cbs = this.cbDao.listByBrand(brand);
     List<Category> categories = null;

@@ -12,7 +12,9 @@ import im.dadoo.price.core.domain.LatestRecord;
 import im.dadoo.price.core.domain.Link;
 import im.dadoo.price.core.domain.Product;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,9 +42,21 @@ public class LatestRecordService {
     List<Link> links = this.linkDao.listByProduct(product);
     List<LatestRecord> records = new ArrayList<>(links.size());
     for (Link link : links) {
-      records.add(this.latestRecordDao.findByLink(link));
+      LatestRecord record = this.latestRecordDao.findByLink(link);
+      if (record != null) {
+        records.add(record);
+      }
     }
     return records;
   }
   
+  public Map<Integer, List<LatestRecord>> mapByProduct(List<Product> products) {
+    Map<Integer, List<LatestRecord>> map = new HashMap<>();
+    for (Product product : products) {
+      List<Link> links = this.linkDao.listByProduct(product);
+      List<LatestRecord> records = this.latestRecordDao.listInLinks(links);
+      map.put(product.getId(), records);
+    }
+    return map;
+  }
 }

@@ -8,6 +8,7 @@ package im.dadoo.price.core.dao;
 
 import im.dadoo.price.core.domain.LatestRecord;
 import im.dadoo.price.core.domain.Link;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -31,4 +32,10 @@ public class LatestRecordDao extends BaseDao<LatestRecord>{
     return (LatestRecord)criteria.uniqueResult();
   }
   
+  public List<LatestRecord> listInLinks(List<Link> links) {
+    Session session = this.sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(this.c);
+    criteria.add(Restrictions.in("link", links));
+    return (List<LatestRecord>)criteria.list();
+  }
 }

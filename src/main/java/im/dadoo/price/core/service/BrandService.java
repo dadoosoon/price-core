@@ -8,6 +8,7 @@ package im.dadoo.price.core.service;
 
 import im.dadoo.price.core.dao.BrandDao;
 import im.dadoo.price.core.dao.CategoryBrandDao;
+import im.dadoo.price.core.dao.CategoryDao;
 import im.dadoo.price.core.domain.Brand;
 import im.dadoo.price.core.domain.Category;
 import im.dadoo.price.core.domain.CategoryBrand;
@@ -31,6 +32,9 @@ public class BrandService {
   
   @Autowired
   private CategoryBrandDao cbDao;
+  
+  @Autowired
+  private CategoryDao categoryDao;
   
   public Brand save(String name, String info) {
     Brand brand = Brand.create(name, info);
@@ -72,5 +76,9 @@ public class BrandService {
       }
     }
     return brands;
+  }
+  
+  public List<Brand> listByCategoryId(Integer categoryId) {
+    return this.listByCategory(this.categoryDao.findById(categoryId));
   }
 }

@@ -6,7 +6,6 @@
 
 package im.dadoo.price.core.dao;
 
-import im.dadoo.price.core.domain.CategoryBrand;
 import im.dadoo.price.core.domain.Link;
 import im.dadoo.price.core.domain.Product;
 import im.dadoo.price.core.domain.Seller;
@@ -47,4 +46,5 @@ public class LinkDao extends BaseDao<Link> {
     criteria.add(Restrictions.eq("url", url));
     return (Link)criteria.uniqueResult();
   }
+  
 }
