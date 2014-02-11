@@ -41,4 +41,5 @@ public class RecordDao extends BaseDao<Record> {
     criteria.setMaxResults(1);
     return (Record)criteria.uniqueResult();
   }
+  
 }

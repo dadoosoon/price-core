@@ -6,8 +6,10 @@
 
 package im.dadoo.price.core.service;
 
+import im.dadoo.price.core.dao.FullRecordDao;
 import im.dadoo.price.core.dao.LinkDao;
 import im.dadoo.price.core.dao.RecordDao;
+import im.dadoo.price.core.domain.FullRecord;
 import im.dadoo.price.core.domain.Link;
 import im.dadoo.price.core.domain.Product;
 import im.dadoo.price.core.domain.Record;
@@ -31,32 +33,63 @@ public class RecordService {
   private RecordDao recordDao;
   
   @Autowired
+  private FullRecordDao fullRecordDao;
+  
+  @Autowired
   private LinkDao linkDao;
   
-  public Record save(Link link, Double price, Integer stock) {
+  public Record save(Link link, Double price, Integer stock, String promotion) {
     Record record = null;
     if (link != null) {
       Record prev = this.recordDao.findLatestByLink(link);
       if (prev != null && ObjectUtils.equals(prev.getPrice(), price) 
-              && ObjectUtils.equals(prev.getStock(), stock)) {
+              && ObjectUtils.equals(prev.getStock(), stock)
+              && ObjectUtils.equals(prev.getPromotion(), promotion)) {
         record = prev;
         record.setDatetime(System.currentTimeMillis());
         this.recordDao.update(record);
       } else {
-        record = Record.create(price, stock, link, System.currentTimeMillis());
+        record = Record.create(price, stock, promotion, link, System.currentTimeMillis());
         this.recordDao.save(record);
+      }
+      
+      //记录到t_full_record中
+      FullRecord fr = this.fullRecordDao.findById(link.getId());
+      if (fr != null) {
+        fr.setDatetime(System.currentTimeMillis());
+        fr.setPrice(price);
+        fr.setStock(stock);
+        fr.setAmount(link.getAmount());
+        fr.setPromotion(promotion);
+        fr.setSellerName(link.getSeller().getName());
+        fr.setProductName(link.getProduct().getName());
+        fr.setUrl(link.getUrl());
+        fr.setRemark(link.getRemark());
+        if (ObjectUtils.compare(price, fr.getMaxPrice(), false) > 0) {
+          fr.setMaxPrice(price);
+        }
+        if (ObjectUtils.compare(price, fr.getMinPrice(), true) < 0) {
+          fr.setMinPrice(price);
+        }
+        this.fullRecordDao.update(fr);
+      } else {
+        fr = FullRecord.create(link.getId(), link.getSeller().getName(), link.getProduct().getName(), 
+                link.getAmount(), link.getUrl(), price, stock, price, price, link.getRemark(), promotion, 
+                System.currentTimeMillis());
+        this.fullRecordDao.save(fr);
       }
     }
     return record;
   }
   
-  public Record update(Integer id, Integer linkId, Double price, Integer stock) {
+  public Record update(Integer id, Integer linkId, Double price, Integer stock, String promotion) {
     Record record = this.recordDao.findById(id);
     if (record != null) {
       Link link = this.linkDao.findById(linkId);
       record.setLink(link);
       record.setPrice(price);
       record.setStock(stock);
+      record.setPromotion(promotion);
     }
     return record;
   }

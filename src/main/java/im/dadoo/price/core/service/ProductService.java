@@ -40,25 +40,27 @@ public class ProductService {
   @Autowired
   private BrandDao brandDao;
   
-  public Product save(String name, Integer categoryId, Integer brandId) {
+  public Product save(String name, String thumbnailPath, Integer categoryId, Integer brandId) {
     Product product = null;
     Category category = this.categoryDao.findById(categoryId);
     Brand brand = this.brandDao.findById(brandId);
     CategoryBrand cb = this.cbDao.findByCategoryAndBrand(category, brand);
     if (cb != null) {
-      product = Product.create(name, cb);
+      product = Product.create(name, thumbnailPath, cb);
       this.productDao.save(product);
     }
     return product;
   }
   
-  public Product update(Integer id, String name, Integer categoryId, Integer brandId) {
+  public Product update(Integer id, String name, String thumbnailPath, 
+          Integer categoryId, Integer brandId) {
     Product product = this.productDao.findById(id);
     Category category = this.categoryDao.findById(categoryId);
     Brand brand = this.brandDao.findById(brandId);
     CategoryBrand cb = this.cbDao.findByCategoryAndBrand(category, brand);
     if (cb != null) {
       product.setName(name);
+      product.setThumbnailPath(thumbnailPath);
       product.setCategoryBrand(cb);
     }
     return product;

@@ -35,16 +35,16 @@ public class LinkService {
   @Autowired
   private ProductDao productDao;
   
-  public Link save(String url, Integer amount, Integer sellerId, Integer productId) {
+  public Link save(String url, Integer amount, String remark, Integer sellerId, Integer productId) {
     Seller seller = this.sellerDao.findById(sellerId);
     Product product = this.productDao.findById(productId);
     
-    Link link = Link.create(url, amount, seller, product);
+    Link link = Link.create(url, amount, remark, seller, product);
     this.linkDao.save(link);
     return link;
   }
   
-  public Link update(Integer id, String url, Integer amount, 
+  public Link update(Integer id, String url, Integer amount, String remark,
           Integer sellerId, Integer productId) {
     Link link = this.linkDao.findById(id);
     
@@ -53,6 +53,7 @@ public class LinkService {
     
     link.setUrl(url);
     link.setAmount(amount);
+    link.setRemark(remark);
     link.setSeller(seller);
     link.setProduct(product);
     return link;
