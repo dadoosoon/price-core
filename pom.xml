@@ -4,7 +4,7 @@
 
   <groupId>im.dadoo</groupId>
   <artifactId>price-core</artifactId>
-  <version>0.0.3</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
   <name>price-core</name>
@@ -71,6 +71,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+      <version>3.2.5.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
       <version>3.2.5.RELEASE</version>
     </dependency>
   </dependencies>
