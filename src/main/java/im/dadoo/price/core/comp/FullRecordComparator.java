@@ -6,7 +6,7 @@
 
 package im.dadoo.price.core.comp;
 
-import im.dadoo.price.core.domain.FullRecord;
+import im.dadoo.price.core.domain3.FullRecord;
 import java.util.Comparator;
 import org.apache.commons.lang3.ObjectUtils;
 

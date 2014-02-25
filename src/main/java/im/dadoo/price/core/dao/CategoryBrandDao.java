@@ -6,45 +6,77 @@
 
 package im.dadoo.price.core.dao;
 
-import im.dadoo.price.core.domain.Brand;
-import im.dadoo.price.core.domain.Category;
 import im.dadoo.price.core.domain.CategoryBrand;
-import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author zyq
+ * @author codekitten
  */
 @Repository
-public class CategoryBrandDao extends BaseDao<CategoryBrand> {
+public class CategoryBrandDao extends BaseDao<CategoryBrand>{
+
+  private static final String SAVE_SQL = 
+          "INSERT INTO t_category_brand(category_id, brand_id) VALUES(:category_id, :brand_id)";
+  
+  private static final String FIND_BY_ID_SQL = 
+          "SELECT id, category_id, brand_id FROM t_category_brand where id=:id";
+  
+  private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category_brand";
+ 
+  private final RowMapper<CategoryBrand> baseRowMapper;
   
   public CategoryBrandDao() {
     super(CategoryBrand.class);
+    this.baseRowMapper = new BaseRowMapper();
+  }
+
+  @Override
+  public CategoryBrand save(CategoryBrand obj) {
+    KeyHolder holder = new GeneratedKeyHolder();
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("category_id", obj.getCategoryId());
+    sps.addValue("brand_id", obj.getBrandId());
+    this.jdbcTemplate.update(SAVE_SQL, sps, holder);
+    obj.setId(holder.getKey().intValue());
+    return obj;
+  }
+
+  @Override
+  public CategoryBrand findById(Serializable id) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("id", id);
+    CategoryBrand cb = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    return cb;
+  }
+
+  @Override
+  public Serializable size() {
+    return (Serializable)this.jdbcTemplate.queryForObject(SIZE_SQL, 
+            (SqlParameterSource)null, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getInt("size");
+      }
+    });
   }
   
-  public List<CategoryBrand> listByCategory(Category category) {
-    Session session = this.sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(this.c);
-    criteria.add(Restrictions.eq("category", category));
-    return (List<CategoryBrand>)criteria.list();
-  }
-  
-  public List<CategoryBrand> listByBrand(Brand brand) {
-    Session session = this.sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(this.c);
-    criteria.add(Restrictions.eq("brand", brand));
-    return (List<CategoryBrand>)criteria.list();
-  }
-  
-  public CategoryBrand findByCategoryAndBrand(Category category, Brand brand) {
-    Session session = this.sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(this.c);
-    criteria.add(Restrictions.eq("category", category));
-    criteria.add(Restrictions.eq("brand", brand));
-    return (CategoryBrand)criteria.uniqueResult();
+  private class BaseRowMapper implements RowMapper<CategoryBrand> {
+    @Override
+    public CategoryBrand mapRow(ResultSet rs, int rowNum) throws SQLException {
+      CategoryBrand cb = new CategoryBrand();
+      cb.setId(rs.getInt("id"));
+      cb.setCategoryId((Integer)rs.getObject("category_id"));
+      cb.setBrandId((Integer)rs.getObject("brand_id"));
+      return cb;
+    }
   }
 }

@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package im.dadoo.price.core.service;
+package im.dadoo.price.core.service3;
 
-import im.dadoo.price.core.dao.FullRecordDao;
-import im.dadoo.price.core.dao.LinkDao;
-import im.dadoo.price.core.domain.FullRecord;
-import im.dadoo.price.core.domain.Product;
+import im.dadoo.price.core.dao3.FullRecordDao;
+import im.dadoo.price.core.dao3.LinkDao;
+import im.dadoo.price.core.domain3.FullRecord;
+import im.dadoo.price.core.domain3.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author codekitten
  */
-@Service
+@Service("fullRecordService3")
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class FullRecordService {
   

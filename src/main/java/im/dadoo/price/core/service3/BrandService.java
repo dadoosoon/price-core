@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package im.dadoo.price.core.service;
+package im.dadoo.price.core.service3;
 
-import im.dadoo.price.core.dao.BrandDao;
-import im.dadoo.price.core.dao.CategoryBrandDao;
-import im.dadoo.price.core.dao.CategoryDao;
-import im.dadoo.price.core.domain.Brand;
-import im.dadoo.price.core.domain.Category;
-import im.dadoo.price.core.domain.CategoryBrand;
+import im.dadoo.price.core.dao3.BrandDao;
+import im.dadoo.price.core.dao3.CategoryBrandDao;
+import im.dadoo.price.core.dao3.CategoryDao;
+import im.dadoo.price.core.domain3.Brand;
+import im.dadoo.price.core.domain3.Category;
+import im.dadoo.price.core.domain3.CategoryBrand;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author zyq
  */
-@Service
+@Service("brandService3")
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class BrandService {
   
