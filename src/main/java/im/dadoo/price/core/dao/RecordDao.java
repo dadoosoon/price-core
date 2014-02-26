@@ -30,7 +30,7 @@ public class RecordDao extends BaseDao<Record>{
           + "VALUES(:price, :stock, :promotion, :link_id, :datetime)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, price, stock, promotion, link_id, datetime FROM t_record where id=:id";
+          "SELECT id, price, stock, promotion, link_id, datetime FROM t_record where id=:id limit 1";
   
   private static final String FIND_LATEST_BY_LINK_ID_SQL = 
           "SELECT id, price, stock, promotion, link_id, datetime FROM t_record "
@@ -73,15 +73,23 @@ public class RecordDao extends BaseDao<Record>{
   public Record findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    Record record = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return record;
+    List<Record> records = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (records.isEmpty()) {
+      return null;
+    } else {
+      return records.get(0);
+    }
   }
 
   public Record findLatestByLinkId(Integer linkId) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("link_id", linkId);
-    Record record = this.jdbcTemplate.queryForObject(FIND_LATEST_BY_LINK_ID_SQL, sps, this.baseRowMapper);
-    return record;
+    List<Record> records = this.jdbcTemplate.query(FIND_LATEST_BY_LINK_ID_SQL, sps, this.baseRowMapper);
+    if (!records.isEmpty()) {
+      return records.get(0);
+    } else {
+      return null;
+    }
   }
   
   @Override

@@ -6,7 +6,6 @@
 
 package im.dadoo.price.core.dao;
 
-import im.dadoo.price.core.domain.Category;
 import im.dadoo.price.core.domain.Product;
 import java.io.Serializable;
 import java.sql.ResultSet;

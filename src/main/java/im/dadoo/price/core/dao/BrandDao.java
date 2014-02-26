@@ -29,10 +29,10 @@ public class BrandDao extends BaseDao<Brand> {
           "INSERT INTO t_brand(name, info) VALUES(:name, :info)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, info FROM t_brand where id=:id";
+          "SELECT id, name, info FROM t_brand where id=:id limit 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, info FROM t_brand where name=:name";
+          "SELECT id, name, info FROM t_brand where name=:name limit 1";
   
   private static final String LIST_SQL = "SELECT id, name, info FROM t_brand";
   
@@ -78,15 +78,23 @@ public class BrandDao extends BaseDao<Brand> {
   public Brand findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    Brand brand = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return brand;
+    List<Brand> brands = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (!brands.isEmpty()) {
+      return brands.get(0);
+    } else {
+      return null;
+    }
   }
   
   public Brand findByName(String name) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", name);
-    Brand brand = this.jdbcTemplate.queryForObject(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
-    return brand;
+    List<Brand> brands = this.jdbcTemplate.query(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
+    if (!brands.isEmpty()) {
+      return brands.get(0);
+    } else {
+      return null;
+    }
   }
   
   @Override

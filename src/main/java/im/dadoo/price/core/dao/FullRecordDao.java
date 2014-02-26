@@ -34,13 +34,13 @@ public class FullRecordDao extends BaseDao<FullRecord>{
   private static final String UPDATE_SQL = 
           "UPDATE t_full_record SET seller_name=:seller_name, product_name=:product_name,"
           + "amount=:amount, url=:url, price=:price, stock=:stock, max_price=:max_price, "
-          + "min_price=:min_price, remark=:remark, promotion=:promotion, datetime=:datetime"
+          + "min_price=:min_price, remark=:remark, promotion=:promotion, datetime=:datetime "
           + "WHERE id=:id";
   
   private static final String FIND_BY_ID_SQL = 
           "SELECT id, seller_name, product_name, amount, url, price, stock, "
           + "max_price, min_price, remark, promotion, datetime "
-          + "FROM t_full_record where id=:id";
+          + "FROM t_full_record where id=:id LIMIT 1";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_full_record";
  
@@ -53,7 +53,6 @@ public class FullRecordDao extends BaseDao<FullRecord>{
 
   @Override
   public FullRecord save(FullRecord obj) {
-    KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", obj.getId());
     sps.addValue("seller_name", obj.getSellerName());
@@ -67,8 +66,7 @@ public class FullRecordDao extends BaseDao<FullRecord>{
     sps.addValue("remark", obj.getRemark());
     sps.addValue("promotion", obj.getPromotion());
     sps.addValue("datetime", obj.getDatetime());
-    this.jdbcTemplate.update(SAVE_SQL, sps, holder);
-    obj.setId(holder.getKey().intValue());
+    this.jdbcTemplate.update(SAVE_SQL, sps);
     return obj;
   }
 
@@ -95,8 +93,12 @@ public class FullRecordDao extends BaseDao<FullRecord>{
   public FullRecord findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    FullRecord fr = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return fr;
+    List<FullRecord> frs = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (!frs.isEmpty()) {
+      return frs.get(0);
+    } else {
+      return null;
+    }
   }
 
   @Override

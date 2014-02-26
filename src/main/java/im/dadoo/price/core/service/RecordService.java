@@ -56,6 +56,7 @@ public class RecordService {
       } else {
         record = Record.create(price, stock, promotion, link.getId(), System.currentTimeMillis());
         this.recordDao.save(record);
+        System.out.println("新增" + record.toString());
       }
       //然后操作t_full_record表
       FullRecord fr = this.fullRecordDao.findById(link.getId());

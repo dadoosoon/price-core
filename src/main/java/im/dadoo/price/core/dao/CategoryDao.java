@@ -29,10 +29,10 @@ public class CategoryDao extends BaseDao<Category>{
           "INSERT INTO t_category(name, sup_id) VALUES(:name, :sup_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, sup_id FROM t_category where id=:id";
+          "SELECT id, name, sup_id FROM t_category where id=:id limit 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, sup_id FROM t_category where name=:name";
+          "SELECT id, name, sup_id FROM t_category where name=:name limit 1";
   
   private static final String LIST_SQL = "SELECT id, name, sup_id FROM t_category";
   
@@ -73,15 +73,23 @@ public class CategoryDao extends BaseDao<Category>{
   public Category findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    Category category = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return category;
+    List<Category> categories = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (!categories.isEmpty()) {
+      return categories.get(0);
+    } else {
+      return null;
+    }
   }
   
   public Category findByName(String name) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", name);
-    Category category = this.jdbcTemplate.queryForObject(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
-    return category;
+    List<Category> categories = this.jdbcTemplate.query(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
+    if (!categories.isEmpty()) {
+      return categories.get(0);
+    } else {
+      return null;
+    }
   }
   
   @Override

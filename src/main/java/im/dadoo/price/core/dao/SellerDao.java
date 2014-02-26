@@ -7,7 +7,6 @@
 package im.dadoo.price.core.dao;
 
 import im.dadoo.price.core.domain.Seller;
-import im.dadoo.price.core.domain.Seller;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -108,7 +107,7 @@ public class SellerDao extends BaseDao<Seller>{
       seller.setId(rs.getInt("id"));
       seller.setName(rs.getString("name"));
       seller.setSite(rs.getString("site"));
-      return seller;
+      return seller; 
     }
   }
 }

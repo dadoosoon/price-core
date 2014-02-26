@@ -10,6 +10,7 @@ import im.dadoo.price.core.domain.CategoryBrand;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -28,7 +29,7 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
           "INSERT INTO t_category_brand(category_id, brand_id) VALUES(:category_id, :brand_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, category_id, brand_id FROM t_category_brand where id=:id";
+          "SELECT id, category_id, brand_id FROM t_category_brand where id=:id limit 1";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category_brand";
  
@@ -54,8 +55,12 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
   public CategoryBrand findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    CategoryBrand cb = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return cb;
+    List<CategoryBrand> cbs = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (!cbs.isEmpty()) {
+      return cbs.get(0);
+    } else {
+      return null;
+    }
   }
 
   @Override
@@ -76,7 +81,7 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
       cb.setId(rs.getInt("id"));
       cb.setCategoryId((Integer)rs.getObject("category_id"));
       cb.setBrandId((Integer)rs.getObject("brand_id"));
-      return cb;
+      return cb; 
     }
   }
 }
