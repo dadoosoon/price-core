@@ -52,7 +52,7 @@ public class RecordService {
               && ObjectUtils.equals(prev.getStock(), stock)
               && ObjectUtils.equals(prev.getPromotion(), promotion)) {
         record = prev;
-        this.recordDao.updateDatetime(record.getId(), System.currentTimeMillis());
+        //this.recordDao.updateDatetime(record.getId(), System.currentTimeMillis());
       } else {
         record = Record.create(price, stock, promotion, link.getId(), System.currentTimeMillis());
         this.recordDao.save(record);
@@ -90,9 +90,9 @@ public class RecordService {
     return record;
   }
   
-  public void updateDatetime(Integer id, Long datetime) {
-    this.recordDao.updateDatetime(id, datetime);
-  }
+//  public void updateDatetime(Integer id, Long datetime) {
+//    this.recordDao.updateDatetime(id, datetime);
+//  }
   
   public Record findLatestByLinkId(Integer linkId) {
     return this.recordDao.findLatestByLinkId(linkId);

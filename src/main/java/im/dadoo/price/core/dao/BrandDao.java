@@ -29,20 +29,20 @@ public class BrandDao extends BaseDao<Brand> {
           "INSERT INTO t_brand(name, info) VALUES(:name, :info)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, info FROM t_brand where id=:id limit 1";
+          "SELECT id, name, info FROM t_brand WHERE id=:id LIMIT 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, info FROM t_brand where name=:name limit 1";
+          "SELECT id, name, info FROM t_brand WHERE name=:name LIMIT 1";
   
   private static final String LIST_SQL = "SELECT id, name, info FROM t_brand";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, info FROM t_brand limit :pagecount, :pagesize";
+          "SELECT id, name, info FROM t_brand LIMIT :pagecount, :pagesize";
   
   private static final String LIST_BY_CATEGORY_ID_SQL = 
-          "SELECT t_brand.id as id, t_brand.name as name, t_brand.info as info from t_brand "
-          + "left outer join t_category_brand on t_brand.id = t_category_brand.brand_id "
-          + "where t_category_brand.category_id = :category_id";
+          "SELECT t_brand.id AS id, t_brand.name AS name, t_brand.info AS info FROM t_brand "
+          + "LEFT OUTER JOIN t_category_brand ON t_brand.id = t_category_brand.brand_id "
+          + "WHERE t_category_brand.category_id = :category_id";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_brand";
   
@@ -79,7 +79,7 @@ public class BrandDao extends BaseDao<Brand> {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Brand> brands = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    if (!brands.isEmpty()) {
+    if (brands != null && !brands.isEmpty()) {
       return brands.get(0);
     } else {
       return null;
@@ -113,10 +113,14 @@ public class BrandDao extends BaseDao<Brand> {
   }
 
   public List<Brand> listByCategoryId(Integer categoryId) {
-    MapSqlParameterSource sps = new MapSqlParameterSource();
-    sps.addValue("category_id", categoryId);
-    List<Brand> brands = this.jdbcTemplate.query(LIST_BY_CATEGORY_ID_SQL, sps, this.baseRowMapper);
-    return brands;
+    if (categoryId != null) {
+      MapSqlParameterSource sps = new MapSqlParameterSource();
+      sps.addValue("category_id", categoryId);
+      List<Brand> brands = this.jdbcTemplate.query(LIST_BY_CATEGORY_ID_SQL, sps, this.baseRowMapper);
+      return brands;
+    } else {
+      return null;
+    }
   }
   
   @Override

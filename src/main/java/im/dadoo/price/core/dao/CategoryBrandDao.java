@@ -29,7 +29,7 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
           "INSERT INTO t_category_brand(category_id, brand_id) VALUES(:category_id, :brand_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, category_id, brand_id FROM t_category_brand where id=:id limit 1";
+          "SELECT id, category_id, brand_id FROM t_category_brand WHERE id=:id LIMIT 1";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category_brand";
  
@@ -56,7 +56,7 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<CategoryBrand> cbs = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    if (!cbs.isEmpty()) {
+    if (cbs != null && !cbs.isEmpty()) {
       return cbs.get(0);
     } else {
       return null;

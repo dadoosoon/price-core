@@ -30,11 +30,11 @@ public class RecordDao extends BaseDao<Record>{
           + "VALUES(:price, :stock, :promotion, :link_id, :datetime)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, price, stock, promotion, link_id, datetime FROM t_record where id=:id limit 1";
+          "SELECT id, price, stock, promotion, link_id, datetime FROM t_record WHERE id=:id LIMIT 1";
   
   private static final String FIND_LATEST_BY_LINK_ID_SQL = 
           "SELECT id, price, stock, promotion, link_id, datetime FROM t_record "
-          + "where link_id=:link_id ORDER BY datetime DESC limit 1";
+          + "WHERE link_id=:link_id ORDER BY datetime DESC LIMIT 1";
   
   private static final String UPDATE_DATETIME_SQL = 
           "UPDATE t_record SET datetime=:datetime WHERE id=:id";
@@ -74,10 +74,10 @@ public class RecordDao extends BaseDao<Record>{
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Record> records = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    if (records.isEmpty()) {
-      return null;
-    } else {
+    if (records != null && !records.isEmpty()) {
       return records.get(0);
+    } else {
+      return null;
     }
   }
 
@@ -85,7 +85,7 @@ public class RecordDao extends BaseDao<Record>{
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("link_id", linkId);
     List<Record> records = this.jdbcTemplate.query(FIND_LATEST_BY_LINK_ID_SQL, sps, this.baseRowMapper);
-    if (!records.isEmpty()) {
+    if (records != null && !records.isEmpty()) {
       return records.get(0);
     } else {
       return null;

@@ -8,6 +8,7 @@ package im.dadoo.price.core.service;
 
 import im.dadoo.price.core.dao.ProductDao;
 import im.dadoo.price.core.domain.Product;
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,5 +27,9 @@ public class ProductService {
   
   public Product findById(Integer id) {
     return this.productDao.findById(id);
+  }
+  
+  public List<Product> list() {
+    return this.productDao.list();
   }
 }

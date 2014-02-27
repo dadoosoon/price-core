@@ -29,15 +29,21 @@ public class CategoryDao extends BaseDao<Category>{
           "INSERT INTO t_category(name, sup_id) VALUES(:name, :sup_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, sup_id FROM t_category where id=:id limit 1";
+          "SELECT id, name, sup_id FROM t_category WHERE id=:id LIMIT 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, sup_id FROM t_category where name=:name limit 1";
+          "SELECT id, name, sup_id FROM t_category WHERE name=:name LIMIT 1";
   
   private static final String LIST_SQL = "SELECT id, name, sup_id FROM t_category";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, sup_id FROM t_category limit :pagecount, :pagesize";
+          "SELECT id, name, sup_id FROM t_category LIMIT :pagecount, :pagesize";
+  
+  private static final String LIST_BY_SUP_ID_SQL = 
+          "SELECT id, name, sup_id FROM t_category WHERE sup_id = :sup_id";
+  
+  private static final String LIST_BY_SUP_ID_IS_NULL_SQL = 
+          "SELECT id, name, sup_id FROM t_category WHERE sup_id IS NULL";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category";
  
@@ -74,7 +80,7 @@ public class CategoryDao extends BaseDao<Category>{
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Category> categories = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    if (!categories.isEmpty()) {
+    if (categories != null && !categories.isEmpty()) {
       return categories.get(0);
     } else {
       return null;
@@ -107,6 +113,16 @@ public class CategoryDao extends BaseDao<Category>{
     return categories;
   }
 
+  public List<Category> listBySupId(Integer supId) {
+    if (supId != null) {
+      MapSqlParameterSource sps = new MapSqlParameterSource();
+      sps.addValue("sup_id", supId);
+      return this.jdbcTemplate.query(LIST_BY_SUP_ID_SQL, sps, this.baseRowMapper);
+    } else {
+      return this.jdbcTemplate.query(LIST_BY_SUP_ID_IS_NULL_SQL, this.baseRowMapper);
+    }
+  }
+  
   @Override
   public Serializable size() {
     return (Serializable)this.jdbcTemplate.queryForObject(SIZE_SQL, 

@@ -30,11 +30,11 @@ public class LinkDao extends BaseDao<Link>{
           + "VALUES(:amount, :url, :remark, :seller_id, :product_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, amount, url, remark, seller_id, product_id FROM t_link where id=:id";
+          "SELECT id, amount, url, remark, seller_id, product_id FROM t_link WHERE id=:id LIMIT 1";
   
   private static final String LIST_BY_SELLER_ID_SQL = 
           "SELECT id, amount, url, remark, seller_id, product_id "
-          + "FROM t_link where seller_id=:seller_id";
+          + "FROM t_link WHERE seller_id=:seller_id";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_link";
  
@@ -63,8 +63,12 @@ public class LinkDao extends BaseDao<Link>{
   public Link findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    Link link = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return link;
+    List<Link> links = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (links != null && !links.isEmpty()) {
+      return links.get(0);
+    } else {
+      return null;
+    }
   }
   
   public List<Link> listBySellerId(Integer sellerId) {

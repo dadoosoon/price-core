@@ -6,8 +6,8 @@
 
 package im.dadoo.price.core.service;
 
-import im.dadoo.price.core.dao.LinkDao;
-import im.dadoo.price.core.domain.Link;
+import im.dadoo.price.core.dao.CategoryDao;
+import im.dadoo.price.core.domain.Category;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -20,20 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-public class LinkService {
+public class CategoryService {
   
   @Resource
-  private LinkDao linkDao;
+  private CategoryDao categoryDao;
   
-  public List<Link> listBySellerId(Integer sellerId) {
-    return this.linkDao.listBySellerId(sellerId);
+  public Category save(String name, Integer supId) {
+    Category category = this.categoryDao.findByName(name);
+    if (category == null) {
+      category = Category.create(name, supId);
+      return this.categoryDao.save(category);
+    } else {
+      return null;
+    }
   }
   
-  public Link findById(Integer id) {
-    return this.linkDao.findById(id);
-  }
-  
-  public List<Link> list() {
-    return this.linkDao.list();
+  public List<Category> list() {
+    return this.categoryDao.list();
   }
 }

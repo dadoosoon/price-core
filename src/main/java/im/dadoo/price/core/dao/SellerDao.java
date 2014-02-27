@@ -29,15 +29,15 @@ public class SellerDao extends BaseDao<Seller>{
           "INSERT INTO t_seller(name, site) VALUES(:name, :site)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, site FROM t_seller where id=:id";
+          "SELECT id, name, site, delay FROM t_seller WHERE id=:id LIMIT 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, site FROM t_seller where name=:name";
+          "SELECT id, name, site, delay FROM t_seller WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, name, site FROM t_seller";
+  private static final String LIST_SQL = "SELECT id, name, site, delay FROM t_seller";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, site FROM t_seller limit :pagecount, :pagesize";
+          "SELECT id, name, site, delay FROM t_seller LIMIT :pagecount, :pagesize";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_seller";
  
@@ -63,15 +63,23 @@ public class SellerDao extends BaseDao<Seller>{
   public Seller findById(Serializable id) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
-    Seller seller = this.jdbcTemplate.queryForObject(FIND_BY_ID_SQL, sps, this.baseRowMapper);
-    return seller;
+    List<Seller> sellers = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
+    if (sellers != null && !sellers.isEmpty()) {
+      return sellers.get(0);
+    } else {
+      return null;
+    }
   }
   
   public Seller findByName(String name) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", name);
-    Seller seller = this.jdbcTemplate.queryForObject(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
-    return seller;
+    List<Seller> sellers = this.jdbcTemplate.query(FIND_BY_NAME_SQL, sps, this.baseRowMapper);
+    if (sellers != null && !sellers.isEmpty()) {
+      return sellers.get(0);
+    } else {
+      return null;
+    }
   }
   
   @Override
@@ -107,6 +115,7 @@ public class SellerDao extends BaseDao<Seller>{
       seller.setId(rs.getInt("id"));
       seller.setName(rs.getString("name"));
       seller.setSite(rs.getString("site"));
+      seller.setDelay((Long)rs.getObject("delay"));
       return seller; 
     }
   }
