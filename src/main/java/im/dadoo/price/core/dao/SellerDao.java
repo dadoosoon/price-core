@@ -34,10 +34,11 @@ public class SellerDao extends BaseDao<Seller>{
   private static final String FIND_BY_NAME_SQL = 
           "SELECT id, name, site, delay FROM t_seller WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, name, site, delay FROM t_seller";
+  private static final String LIST_SQL = "SELECT id, name, site, delay FROM t_seller ORDER BY name";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, site, delay FROM t_seller LIMIT :pagecount, :pagesize";
+          "SELECT id, name, site, delay FROM t_seller "
+          + "ORDER BY name LIMIT :pagecount, :pagesize";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_seller";
  

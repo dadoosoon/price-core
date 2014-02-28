@@ -36,6 +36,12 @@ public class RecordDao extends BaseDao<Record>{
           "SELECT id, price, stock, promotion, link_id, datetime FROM t_record "
           + "WHERE link_id=:link_id ORDER BY datetime DESC LIMIT 1";
   
+  private static final String LIST_BY_LINK_ID_AND_DATETIME_SQL = 
+          "SELECT id, link_id, price, stock, promotion, datetime FROM t_record "
+          + "WHERE link_id = :link_id "
+          + "AND datetime BETWEEN :begin_datetime AND :end_datetime "
+          + "ORDER BY datetime ASC";
+  
   private static final String UPDATE_DATETIME_SQL = 
           "UPDATE t_record SET datetime=:datetime WHERE id=:id";
   
@@ -90,6 +96,24 @@ public class RecordDao extends BaseDao<Record>{
     } else {
       return null;
     }
+  }
+  
+  public List<Record> listByLinkIdAndDatetime(Integer linkId, Long beginDatetime, Long endDatetime) {
+    if (linkId != null && beginDatetime != null && endDatetime != null) {
+      MapSqlParameterSource sps = new MapSqlParameterSource();
+      sps.addValue("link_id", linkId);
+      sps.addValue("begin_datetime", beginDatetime);
+      sps.addValue("end_datetime", endDatetime);
+      List<Record> records = 
+              this.jdbcTemplate.query(LIST_BY_LINK_ID_AND_DATETIME_SQL, sps, this.baseRowMapper);
+      if (records != null && !records.isEmpty()) {
+        return records;
+      } else {
+        return null;
+      }
+    } else {
+     return null; 
+    } 
   }
   
   @Override

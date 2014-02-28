@@ -34,16 +34,16 @@ public class CategoryDao extends BaseDao<Category>{
   private static final String FIND_BY_NAME_SQL = 
           "SELECT id, name, sup_id FROM t_category WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, name, sup_id FROM t_category";
+  private static final String LIST_SQL = "SELECT id, name, sup_id FROM t_category ORDER BY name ASC";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, sup_id FROM t_category LIMIT :pagecount, :pagesize";
+          "SELECT id, name, sup_id FROM t_category ORDER BY name ASC LIMIT :pagecount, :pagesize";
   
   private static final String LIST_BY_SUP_ID_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE sup_id = :sup_id";
+          "SELECT id, name, sup_id FROM t_category WHERE sup_id = :sup_id ORDER BY name ASC";
   
   private static final String LIST_BY_SUP_ID_IS_NULL_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE sup_id IS NULL";
+          "SELECT id, name, sup_id FROM t_category WHERE sup_id IS NULL ORDER BY name ASC";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category";
  

@@ -7,13 +7,13 @@
 package im.dadoo.price.core.service;
 
 import im.dadoo.price.core.dao.FullRecordDao;
-import im.dadoo.price.core.dao.LinkDao;
 import im.dadoo.price.core.dao.ProductDao;
 import im.dadoo.price.core.dao.RecordDao;
 import im.dadoo.price.core.dao.SellerDao;
 import im.dadoo.price.core.domain.FullRecord;
 import im.dadoo.price.core.domain.Link;
 import im.dadoo.price.core.domain.Record;
+import java.util.List;
 import javax.annotation.Resource;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -33,9 +33,6 @@ public class RecordService {
   
   @Resource
   private FullRecordDao fullRecordDao;
-  
-  @Resource
-  private LinkDao linkDao;
   
   @Resource
   private SellerDao sellerDao;
@@ -98,5 +95,7 @@ public class RecordService {
     return this.recordDao.findLatestByLinkId(linkId);
   }
   
-  
+  public List<Record> listByLinkIdAndDatetime(Integer linkId, Long beginDatetime, Long endDatetime) {
+    return this.recordDao.listByLinkIdAndDatetime(linkId, beginDatetime, endDatetime);
+  }
 }

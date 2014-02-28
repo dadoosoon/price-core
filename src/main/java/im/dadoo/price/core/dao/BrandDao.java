@@ -34,15 +34,16 @@ public class BrandDao extends BaseDao<Brand> {
   private static final String FIND_BY_NAME_SQL = 
           "SELECT id, name, info FROM t_brand WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, name, info FROM t_brand";
+  private static final String LIST_SQL = "SELECT id, name, info FROM t_brand ORDER BY name ASC";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, info FROM t_brand LIMIT :pagecount, :pagesize";
+          "SELECT id, name, info FROM t_brand ORDER BY name ASC LIMIT :pagecount, :pagesize";
   
   private static final String LIST_BY_CATEGORY_ID_SQL = 
           "SELECT t_brand.id AS id, t_brand.name AS name, t_brand.info AS info FROM t_brand "
           + "LEFT OUTER JOIN t_category_brand ON t_brand.id = t_category_brand.brand_id "
-          + "WHERE t_category_brand.category_id = :category_id";
+          + "WHERE t_category_brand.category_id = :category_id "
+          + "ORDER BY name ASC";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_brand";
   
