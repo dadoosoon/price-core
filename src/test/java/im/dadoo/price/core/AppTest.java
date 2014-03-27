@@ -1,8 +1,12 @@
 package im.dadoo.price.core;
 
+import im.dadoo.price.core.configuration.Application;
+import im.dadoo.price.core.service.BrandService;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Unit test for simple App.
@@ -33,6 +37,9 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+      ApplicationContext application = new AnnotationConfigApplicationContext(Application.class);
+      BrandService bs = application.getBean(BrandService.class);
+      System.out.println(bs.list());
+      assertTrue( true );
     }
 }

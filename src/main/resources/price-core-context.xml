@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
   xmlns:context="http://www.springframework.org/schema/context"
@@ -22,10 +22,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
     <constructor-arg ref="dataSource" />
   </bean>
-  <!-- Scans within the base package of the application for @Components to 
-    configure as beans -->
-  <!-- @Controller, @Service, @Configuration, etc. -->
+   Scans within the base package of the application for @Components to 
+    configure as beans 
+   @Controller, @Service, @Configuration, etc. 
   <context:annotation-config />
   <context:component-scan base-package="im.dadoo.price.core" />
 
-</beans>
+</beans>-->

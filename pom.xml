@@ -4,7 +4,7 @@
 
   <groupId>im.dadoo</groupId>
   <artifactId>price-core</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <packaging>jar</packaging>
 
   <name>price-core</name>
@@ -23,8 +23,9 @@
         </plugins>
     </build>
     <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <springframework.version>4.0.2.RELEASE</springframework.version>
+    </properties>
 
   <dependencies>
     <dependency>
@@ -36,12 +37,17 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>price-core-domain</artifactId>
-      <version>${project.version}</version>
+      <version>0.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${springframework.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -61,12 +67,12 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${springframework.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${springframework.version}</version>
     </dependency>
   </dependencies>
 </project>
