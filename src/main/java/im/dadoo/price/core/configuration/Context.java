@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  */
 @Configuration
 @ComponentScan("im.dadoo.price.core")
-public class Application {
+public class Context {
   
   @Bean(initMethod = "init", destroyMethod = "close")
   public DataSource dataSource() {
