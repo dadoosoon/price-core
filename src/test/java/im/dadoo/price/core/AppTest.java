@@ -1,6 +1,6 @@
 package im.dadoo.price.core;
 
-import im.dadoo.price.core.configuration.Context;
+import im.dadoo.price.core.configuration.PriceCoreContext;
 import im.dadoo.price.core.service.BrandService;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -37,7 +37,7 @@ public class AppTest
      */
     public void testApp()
     {
-      ApplicationContext application = new AnnotationConfigApplicationContext(Context.class);
+      ApplicationContext application = new AnnotationConfigApplicationContext(PriceCoreContext.class);
       BrandService bs = application.getBean(BrandService.class);
       System.out.println(bs.list());
       assertTrue( true );
