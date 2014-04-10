@@ -37,9 +37,9 @@ public class AppTest
      */
     public void testApp()
     {
-      ApplicationContext application = new AnnotationConfigApplicationContext(PriceCoreContext.class);
-      BrandService bs = application.getBean(BrandService.class);
-      System.out.println(bs.list());
-      assertTrue( true );
+//      ApplicationContext application = new AnnotationConfigApplicationContext(PriceCoreContext.class);
+//      BrandService bs = application.getBean(BrandService.class);
+//      System.out.println(bs.list());
+//      assertTrue( true );
     }
 }
