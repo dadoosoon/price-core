@@ -24,28 +24,28 @@ import org.springframework.stereotype.Repository;
 public class FullRecordDao extends BaseDao<FullRecord>{
 
   private static final String SAVE_SQL = 
-          "INSERT INTO t_full_record(id, seller_name, product_name, amount, url, price, stock, "
-          + "max_price, min_price, remark, promotion, datetime) "
-          + "VALUES(:id, :seller_name, :product_name, :amount, :url, :price, :stock, "
-          + ":max_price, :min_price, :remark, :promotion, :datetime)";
+          "INSERT INTO t_full_record(id,seller_name,product_name,amount,url,price,stock, "
+          + "max_price,min_price,remark,promotion,datetime) "
+          + "VALUES(:id,:seller_name,:product_name,:amount,:url,:price,:stock, "
+          + ":max_price,:min_price,:remark,:promotion,:datetime)";
   
   private static final String UPDATE_SQL = 
-          "UPDATE t_full_record SET seller_name=:seller_name, product_name=:product_name,"
-          + "amount=:amount, url=:url, price=:price, stock=:stock, max_price=:max_price, "
-          + "min_price=:min_price, remark=:remark, promotion=:promotion, datetime=:datetime "
+          "UPDATE t_full_record SET seller_name=:seller_name,product_name=:product_name,"
+          + "amount=:amount,url=:url,price=:price,stock=:stock,max_price=:max_price, "
+          + "min_price=:min_price,remark=:remark,promotion=:promotion,datetime=:datetime "
           + "WHERE id=:id";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, seller_name, product_name, amount, url, price, stock, "
-          + "max_price, min_price, remark, promotion, datetime "
+          "SELECT id,seller_name,product_name,amount,url,price,stock, "
+          + "max_price,min_price,remark,promotion,datetime "
           + "FROM t_full_record WHERE id=:id LIMIT 1";
   
   private static final String LIST_BY_PRODUCT_ID_SQL = 
-          "SELECT t1.id, t1.seller_name, t1.product_name, t1.amount, t1.url, t1.price, t1.stock,"
-          + "t1.max_price, t1.min_price, t1.remark, t1.promotion, t1.datetime "
+          "SELECT t1.id,t1.seller_name,t1.product_name,t1.amount,t1.url,t1.price t1.stock,"
+          + "t1.max_price,t1.min_price,t1.remark,t1.promotion,t1.datetime "
           + "FROM t_full_record AS t1 RIGHT OUTER JOIN t_link AS t2 "
-          + "ON t1.id = t2.id "
-          + "WHERE t2.product_id = :product_id "
+          + "ON t1.id=t2.id "
+          + "WHERE t2.product_id=:product_id "
           + "ORDER BY CASE WHEN t1.price IS NULL THEN 1 ELSE 0 END, "
           + "t1.price ASC";
   

@@ -26,14 +26,14 @@ import org.springframework.stereotype.Repository;
 public class LinkDao extends BaseDao<Link>{
 
   private static final String SAVE_SQL = 
-          "INSERT INTO t_link(amount, url, remark, seller_id, product_id) "
-          + "VALUES(:amount, :url, :remark, :seller_id, :product_id)";
+          "INSERT INTO t_link(amount,url,remark,seller_id,product_id) "
+          + "VALUES(:amount,:url,:remark,:seller_id,:product_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, amount, url, remark, seller_id, product_id FROM t_link WHERE id=:id LIMIT 1";
+          "SELECT id,amount,url,remark,seller_id,product_id FROM t_link WHERE id=:id LIMIT 1";
   
   private static final String LIST_BY_SELLER_ID_SQL = 
-          "SELECT id, amount, url, remark, seller_id, product_id "
+          "SELECT id,amount,url,remark,seller_id,product_id "
           + "FROM t_link WHERE seller_id=:seller_id";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_link";

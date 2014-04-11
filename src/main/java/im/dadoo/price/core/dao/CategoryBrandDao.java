@@ -26,10 +26,10 @@ import org.springframework.stereotype.Repository;
 public class CategoryBrandDao extends BaseDao<CategoryBrand>{
 
   private static final String SAVE_SQL = 
-          "INSERT INTO t_category_brand(category_id, brand_id) VALUES(:category_id, :brand_id)";
+          "INSERT INTO t_category_brand(category_id,brand_id) VALUES(:category_id,:brand_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, category_id, brand_id FROM t_category_brand WHERE id=:id LIMIT 1";
+          "SELECT id,category_id,brand_id FROM t_category_brand WHERE id=:id LIMIT 1";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category_brand";
  
@@ -41,14 +41,14 @@ public class CategoryBrandDao extends BaseDao<CategoryBrand>{
   }
 
   @Override
-  public CategoryBrand save(CategoryBrand obj) {
+  public CategoryBrand save(CategoryBrand cb) {
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
-    sps.addValue("category_id", obj.getCategoryId());
-    sps.addValue("brand_id", obj.getBrandId());
+    sps.addValue("category_id", cb.getCategoryId());
+    sps.addValue("brand_id", cb.getBrandId());
     this.jdbcTemplate.update(SAVE_SQL, sps, holder);
-    obj.setId(holder.getKey().intValue());
-    return obj;
+    cb.setId(holder.getKey().intValue());
+    return cb;
   }
 
   @Override

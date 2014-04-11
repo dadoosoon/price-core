@@ -26,24 +26,24 @@ import org.springframework.stereotype.Repository;
 public class CategoryDao extends BaseDao<Category>{
 
   private static final String SAVE_SQL = 
-          "INSERT INTO t_category(name, sup_id) VALUES(:name, :sup_id)";
+          "INSERT INTO t_category(name,sup_id) VALUES(:name,:sup_id)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE id=:id LIMIT 1";
+          "SELECT id,name,sup_id FROM t_category WHERE id=:id LIMIT 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE name=:name LIMIT 1";
+          "SELECT id,name,sup_id FROM t_category WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, name, sup_id FROM t_category ORDER BY name ASC";
+  private static final String LIST_SQL = "SELECT id,name,sup_id FROM t_category ORDER BY name ASC";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, name, sup_id FROM t_category ORDER BY name ASC LIMIT :pagecount, :pagesize";
+          "SELECT id,name,sup_id FROM t_category ORDER BY name ASC LIMIT :pagecount,:pagesize";
   
   private static final String LIST_BY_SUP_ID_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE sup_id = :sup_id ORDER BY name ASC";
+          "SELECT id,name,sup_id FROM t_category WHERE sup_id=:sup_id ORDER BY name ASC";
   
   private static final String LIST_BY_SUP_ID_IS_NULL_SQL = 
-          "SELECT id, name, sup_id FROM t_category WHERE sup_id IS NULL ORDER BY name ASC";
+          "SELECT id,name,sup_id FROM t_category WHERE sup_id IS NULL ORDER BY name ASC";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category";
  
@@ -55,18 +55,18 @@ public class CategoryDao extends BaseDao<Category>{
   }
 
   @Override
-  public Category save(Category obj) {
+  public Category save(Category category) {
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
-    sps.addValue("name", obj.getName());
-    sps.addValue("sup_id", obj.getSupId());
+    sps.addValue("name", category.getName());
+    sps.addValue("sup_id", category.getSupId());
     this.jdbcTemplate.update(SAVE_SQL, sps, holder);
-    obj.setId(holder.getKey().intValue());
-    return obj;
+    category.setId(holder.getKey().intValue());
+    return category;
   }
 
   @Override
-  public Category update(Category obj) {
+  public Category update(Category category) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 

@@ -26,29 +26,29 @@ import org.springframework.stereotype.Repository;
 public class ProductDao extends BaseDao<Product>{
 
   private static final String SAVE_SQL = 
-          "INSERT INTO t_product(category_brand_id, name, thumbnail_path) "
-          + "VALUES(:category_brand_id, :name, :thumbnail_path)";
+          "INSERT INTO t_product(category_brand_id,name,thumbnail_path) "
+          + "VALUES(:category_brand_id,:name,:thumbnail_path)";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id, category_brand_id, name, thumbnail_path FROM t_product WHERE id=:id LIMIT 1";
+          "SELECT id,category_brand_id,name,thumbnail_path FROM t_product WHERE id=:id LIMIT 1";
   
   private static final String FIND_BY_NAME_SQL = 
-          "SELECT id, category_brand_id, name, thumbnail_path FROM t_product WHERE name=:name LIMIT 1";
+          "SELECT id,category_brand_id,name,thumbnail_path FROM t_product WHERE name=:name LIMIT 1";
   
-  private static final String LIST_SQL = "SELECT id, category_brand_id, name, thumbnail_path "
+  private static final String LIST_SQL = "SELECT id,category_brand_id,name,thumbnail_path "
           + "FROM t_product ORDER BY name ASC";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id, category_brand_id, name, thumbnail_path FROM t_product "
-          + "ORDER BY name ASC LIMIT :pagecount, :pagesize";
+          "SELECT id,category_brand_id,name,thumbnail_path FROM t_product "
+          + "ORDER BY name ASC LIMIT :pagecount,:pagesize";
   
   private static final String LIST_BY_CATEGORY_AND_BRAND_ID_SQL = 
-          "SELECT t_product.id AS id, t_product.category_brand_id AS category_brand_id, "
-          + "t_product.name AS name, t_product.thumbnail_path AS thumbnail_path "
+          "SELECT t_product.id AS id,t_product.category_brand_id AS category_brand_id, "
+          + "t_product.name AS name,t_product.thumbnail_path AS thumbnail_path "
           + "FROM t_product LEFT OUTER JOIN t_category_brand "
-          + "ON t_product.category_brand_id = t_category_brand.id "
-          + "WHERE t_category_brand.category_id = :category_id "
-          + "AND t_category_brand.brand_id = :brand_id "
+          + "ON t_product.category_brand_id=t_category_brand.id "
+          + "WHERE t_category_brand.category_id=:category_id "
+          + "AND t_category_brand.brand_id=:brand_id "
           + "ORDER BY name ASC";
   
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_product";
