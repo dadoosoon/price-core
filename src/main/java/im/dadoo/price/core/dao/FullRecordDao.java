@@ -41,7 +41,7 @@ public class FullRecordDao extends BaseDao<FullRecord>{
           + "FROM t_full_record WHERE id=:id LIMIT 1";
   
   private static final String LIST_BY_PRODUCT_ID_SQL = 
-          "SELECT t1.id,t1.seller_name,t1.product_name,t1.amount,t1.url,t1.price t1.stock,"
+          "SELECT t1.id,t1.seller_name,t1.product_name,t1.amount,t1.url,t1.price,t1.stock,"
           + "t1.max_price,t1.min_price,t1.remark,t1.promotion,t1.datetime "
           + "FROM t_full_record AS t1 RIGHT OUTER JOIN t_link AS t2 "
           + "ON t1.id=t2.id "
