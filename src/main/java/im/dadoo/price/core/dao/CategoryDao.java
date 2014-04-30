@@ -45,6 +45,12 @@ public class CategoryDao extends BaseDao<Category>{
   private static final String LIST_BY_SUP_ID_IS_NULL_SQL = 
           "SELECT id,name,sup_id FROM t_category WHERE sup_id IS NULL ORDER BY name ASC";
   
+  private static final String LIST_BY_BRAND_ID_SQL = 
+          "SELECT t_category.id AS id,t_category.name AS name,t_category.sup_id AS sup_id FROM t_category "
+          + "LEFT OUTER JOIN t_category_brand ON t_category.id=t_category_brand.category_id "
+          + "WHERE t_category_brand.brand_id=:brand_id "
+          + "ORDER BY name ASC";
+  
   private static final String SIZE_SQL = "SELECT count(*) AS size FROM t_category";
  
   private final RowMapper<Category> baseRowMapper;
@@ -120,6 +126,17 @@ public class CategoryDao extends BaseDao<Category>{
       return this.jdbcTemplate.query(LIST_BY_SUP_ID_SQL, sps, this.baseRowMapper);
     } else {
       return this.jdbcTemplate.query(LIST_BY_SUP_ID_IS_NULL_SQL, this.baseRowMapper);
+    }
+  }
+  
+  public List<Category> listByBrandId(Integer brandId) {
+    if (brandId != null) {
+      MapSqlParameterSource sps = new MapSqlParameterSource();
+      sps.addValue("brand_id", brandId);
+      List<Category> categories = this.jdbcTemplate.query(LIST_BY_BRAND_ID_SQL, sps, this.baseRowMapper);
+      return categories;
+    } else {
+      return null;
     }
   }
   

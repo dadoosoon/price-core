@@ -8,7 +8,9 @@ package im.dadoo.price.core.service;
 
 import im.dadoo.price.core.dao.BrandDao;
 import im.dadoo.price.core.domain.Brand;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,6 +38,19 @@ public class BrandService {
   
   public List<Brand> list() {
     return this.brandDao.list();
+  }
+  
+  public Map<Integer, Brand> map() {
+    List<Brand> brands = this.brandDao.list();
+    if (brands != null) {
+      Map<Integer, Brand> map = new HashMap<>();
+      for (Brand brand : brands) {
+        map.put(brand.getId(), brand);
+      }
+      return map;
+    } else {
+      return null;
+    }
   }
   
   public List<Brand> listByCategoryId(Integer categoryId) {
